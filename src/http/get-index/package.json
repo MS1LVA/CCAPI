@@ -1,0 +1,10 @@
+{
+  "name": "content-cyborg-api",
+  "version": "0.1.0",
+  "description": "This is a JS REST API built with [Architect](https://arc.codes) to be deployed on AWS.",
+  "author": "Benjamin Harrington <~@benharrington.io> (https://github.com/bunjomin)",
+  "dependencies": {
+    "@architect/functions": "3.7.6",
+    "aws-sdk": "2.635.0"
+  }
+}
