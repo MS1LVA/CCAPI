@@ -4,6 +4,7 @@ content-cyborg-api
 @http
 get /
 post /users
+post /login
 
 @tables
 users

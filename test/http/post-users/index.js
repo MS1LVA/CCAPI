@@ -26,7 +26,7 @@ describe('http/post-users', () => {
 	describe('succeed', () => {
 		let fakeCredentials = {
 			email: faker.internet.email(),
-			password: faker.internet.password()
+			passphrase: faker.internet.password()
 		};
 		it('should successfully create a user', async () => {
 			const result = await request
@@ -40,7 +40,7 @@ describe('http/post-users', () => {
 		});
 	});
 	describe('fail', () => {
-		it('should fail to create a user with a short password', async () => {
+		it('should fail to create a user with a short passphrase', async () => {
 			const promise = postUser(faker.internet.email(), 'short');
 			expect(promise).to.be.rejectedWith(/unprocessable entity/i);
 		});

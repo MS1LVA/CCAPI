@@ -3,3 +3,4 @@ node_modules
 tmp
 .arc-env
 config/*local.json
+config/test.json

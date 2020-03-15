@@ -11,23 +11,26 @@ const user = require('../../../lib/user'),
 			},
 			passphrase: {
 				type: 'string',
-				presence: true
+				presence: true,
+				length: {
+					minimum: 6
+				}
 			}
 		});
 
-		// Short-circuit on invalid input
+		// Short-circuit on bad input
 		if (errors.length) return {
+			statusCode: 422,
 			body: JSON.stringify({
 				errors
-			}),
-			statusCode: 422
+			})
 		};
 
-		await user.create(validated.email, validated.passphrase);
+		const token = await user.authenticate(validated.email, validated.passphrase);
 
 		return {
 			body: JSON.stringify({
-				success: true
+				token
 			}),
 			statusCode: 200
 		};
