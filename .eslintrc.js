@@ -46,7 +46,7 @@ module.exports = {
 		'no-multiple-empty-lines': [
 			'error',
 			{
-				'max': 1,
+				'max': 2,
 				'maxEOF': 1
 			}
 		],
@@ -67,7 +67,12 @@ module.exports = {
 		],
 		'object-curly-newline': [
 			'error',
-			'always'
+			{
+				'ObjectPattern': { 'multiline': true },
+				'ImportDeclaration': 'never',
+				'ExportDeclaration': { 'multiline': true, 'minProperties': 3 },
+				'ObjectExpression': 'always'
+			}
 		],
 		'object-property-newline': [
 			'error'

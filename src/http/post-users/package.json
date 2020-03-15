@@ -1,5 +1,5 @@
 {
-  "name": "content-cyborg-get-index",
+  "name": "content-cyborg-post-users",
   "version": "0.1.0",
   "description": "This is a JS REST API built with [Architect](https://arc.codes) to be deployed on AWS.",
   "author": "Benjamin Harrington <~@benharrington.io> (https://github.com/bunjomin)",

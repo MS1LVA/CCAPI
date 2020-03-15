@@ -5,12 +5,15 @@ const sandbox = require('@architect/sandbox'),
 	Mocha = require('mocha');
 
 (async () => {
+	// Set a global base URL for testing.
+	global.BASE = 'http://localhost:3333';
 	const end = await sandbox.start(),
 		tests = await globby([`${__dirname}/test/**/*.js`, `!${__dirname}/**/node_modules`]),
 		mocha = new Mocha({
 			ui: 'bdd',
 			reporter: 'spec',
-			inlineDiffs: true
+			inlineDiffs: true,
+			globals: ['BASE']
 		});
 	for (const test of tests) {
 		mocha.addFile(test);
