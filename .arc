@@ -5,6 +5,7 @@ content-cyborg-api
 get /
 post /users
 post /login
+post /analyze
 
 @tables
 users

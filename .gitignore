@@ -4,3 +4,4 @@ tmp
 .arc-env
 config/*local.json
 config/test.json
+config/google-app-credentials.json
