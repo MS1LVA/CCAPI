@@ -23,22 +23,25 @@ function postUser(email, pass) {
 	});
 }
 
-describe('http/post-users', () => {
+describe('http/post-login', () => {
+	let fakeCredentials = {
+		email: faker.internet.email(),
+		passphrase: faker.internet.password()
+	};
 	describe('succeed', () => {
-		let fakeCredentials = {
-			email: faker.internet.email(),
-			passphrase: faker.internet.password()
-		};
 		before(async () => {
 			await user.create(fakeCredentials.email, fakeCredentials.passphrase);
 		});
 		it('should successfully authenticate a user with valid credentials', async () => {
+			console.log('Attempting to login with ', fakeCredentials);
 			const result = await request
 				.post(`${global.BASE}/login`)
 				.send(fakeCredentials);
 			expect(result).to.be.an('object').have.property('statusCode').a('number').equals(200);
 			expect(result).to.have.property('body').an('object').have.property('token').a('string').lengthOf(64);
 		});
+	});
+	describe('fail', () => {
 		it('should fail to authenticate a user with invalid credentials', async () => {
 			const promise = postUser(fakeCredentials.email, faker.internet.password());
 			expect(promise).to.be.rejected;

@@ -1,6 +1,6 @@
 'use strict';
 
-const user = require('../../../lib/user'),
+const { authenticate } = require('../../../lib/user'),
 	arc = require('@architect/functions'),
 	validateInput = require('../../../lib/validate'),
 	route = async (request) => {
@@ -26,7 +26,7 @@ const user = require('../../../lib/user'),
 			})
 		};
 
-		const token = await user.authenticate(validated.email, validated.passphrase);
+		const token = await authenticate(validated.email, validated.passphrase);
 
 		return {
 			body: JSON.stringify({
