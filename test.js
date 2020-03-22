@@ -4,7 +4,7 @@ const sandbox = require('@architect/sandbox'),
 	globby = require('globby'),
 	Mocha = require('mocha');
 
-(async () => {
+async function testSuite() {
 	// Set a global base URL for testing.
 	global.BASE = 'http://localhost:3333';
 	const end = await sandbox.start(),
@@ -24,4 +24,9 @@ const sandbox = require('@architect/sandbox'),
 			resolve(failures);
 		});
 	});
-})();
+}
+
+testSuite().then(failures => {
+	console.log(`${failures} failing tests`);
+	process.exit(0);
+});

@@ -38,7 +38,7 @@ const arc = require('@architect/functions'),
 				statusCode: 200
 			};
 		} catch (err) {
-			console.log(err);
+			console.error(err);
 		}
 	};
 

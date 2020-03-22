@@ -9,11 +9,11 @@ post /analyze
 
 @tables
 users
-  userID *String
-
-@index
-users
   email *String
+
+# @index
+# users
+#   userID *String
 
 @aws
 profile default

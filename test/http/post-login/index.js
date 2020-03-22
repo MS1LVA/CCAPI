@@ -33,7 +33,6 @@ describe('http/post-login', () => {
 			await user.create(fakeCredentials.email, fakeCredentials.passphrase);
 		});
 		it('should successfully authenticate a user with valid credentials', async () => {
-			console.log('Attempting to login with ', fakeCredentials);
 			const result = await request
 				.post(`${global.BASE}/login`)
 				.send(fakeCredentials);
