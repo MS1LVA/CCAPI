@@ -5,16 +5,15 @@ const sandbox = require('@architect/sandbox'),
 	path = require('path'),
 	Mocha = require('mocha'),
 	argv = require('minimist')(process.argv.slice(2)),
-	testPath = argv.path || argv.p;
+	testPath = argv.path ? path.resolve(__dirname, argv.path) : __dirname;
 
-console.log(process.argv, argv, testPath);
+console.log(`TEST PATH: ${testPath}`);
 
 async function testSuite() {
 	// Set a global base URL for testing.
 	global.BASE = 'http://localhost:3333';
 	const end = await sandbox.start(),
-		pathRoot = testPath ? path.resolve(__dirname, testPath) : __dirname,
-		tests = await globby([`${pathRoot}/test/**/*.js`, `!${__dirname}/**/node_modules`, `${pathRoot}/lib/**/test/*.js`]),
+		tests = argv.path ? await globby(`${testPath}/**/*.js`) : await globby([`${testPath}/test/**/*.js`, `!${__dirname}/**/node_modules`, `${testPath}/lib/**/test/*.js`]),
 		mocha = new Mocha({
 			ui: 'bdd',
 			reporter: 'spec',
