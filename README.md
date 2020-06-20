@@ -26,6 +26,23 @@ All set! To start a local sandbox, run `bin/run` and you should see the DynamoDB
 
 Be careful where you run `arc` commands from, if you run a `hydrate` or `sandbox` from somewhere other than the project root, it may create a weird file structure.
 
+### Testing
+
+Test Driven Development is very important to our development philosophy on this project. The basic principle is that you write your test before you write your code. Not the whole finished product, but enough that you can then write some code to make the test pass. When the test passes, you add more into the test, and repeat until you have a finished and tested, library, event, queue, etc.
+
+Place tests in `<project-root>/lib/:lib/test/*.js` _or_ `<project-root>/test/:type/:handler/*.js`.
+
+To run all tests, simply run `npm test`.
+
+If you're working on one specific test and don't want to run the whole suite on each iteration, I recommend running these commands from project root:
+
+```
+mkdir tmp
+touch tmp/test
+chmod 700 tmp/test
+echo npm run test -- --path=path/to/your/target/test/directory/relative/to/project/root > tmp/test
+```
+
 ### Deployment
 
 TODO
