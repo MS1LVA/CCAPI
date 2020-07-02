@@ -41,7 +41,10 @@ mkdir tmp
 touch tmp/test
 chmod 700 tmp/test
 echo npm run test -- --path=path/to/your/target/test/directory/relative/to/project/root > tmp/test
+tmp/test
 ```
+
+On subsequent tests, just open `tmp/test`, update the path to your new target, and run `tmp/test`.
 
 ### Deployment
 
