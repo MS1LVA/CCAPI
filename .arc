@@ -11,9 +11,12 @@ post /analyze
 users
   email *String
 
-# @index
-# users
-#   userID *String
+
+events
+  identifier *String
+
+@events
+user-signup
 
 @aws
 profile default
