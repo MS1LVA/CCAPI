@@ -9,5 +9,11 @@
 			"secret": ""
 		},
 		"randomSleep": 250
+	},
+	"api": {
+		"naturalLanguage": {
+			"enabled": true,
+			"mock": false
+		}
 	}
 }
