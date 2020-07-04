@@ -2,35 +2,36 @@
 
 const user = require('../../../lib/user'),
 	arc = require('@architect/functions'),
-	validateInput = require('../../../lib/validate'),
-	route = async (request) => {
-		const { validated, errors } = validateInput(request.body, {
-			email: {
-				email: true,
-				presence: true
-			},
-			passphrase: {
-				type: 'string',
-				presence: true
-			}
-		});
+	validateInput = require('../../../lib/validate');
 
-		// Short-circuit on invalid input
-		if (errors.length) return {
-			body: JSON.stringify({
-				errors
-			}),
-			statusCode: 422
-		};
+async function route(request) {
+	const { validated, errors } = validateInput(request.body, {
+		email: {
+			email: true,
+			presence: true
+		},
+		passphrase: {
+			type: 'string',
+			presence: true
+		}
+	});
 
-		await user.create(validated.email, validated.passphrase);
-
-		return {
-			body: JSON.stringify({
-				success: true
-			}),
-			statusCode: 200
-		};
+	// Short-circuit on invalid input
+	if (errors.length) return {
+		body: JSON.stringify({
+			errors
+		}),
+		statusCode: 422
 	};
+
+	await user.create(validated.email, validated.passphrase);
+
+	return {
+		body: JSON.stringify({
+			success: true
+		}),
+		statusCode: 200
+	};
+}
 
 exports.handler = arc.http.async(route);
