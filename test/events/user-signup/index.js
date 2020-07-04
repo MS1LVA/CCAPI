@@ -30,8 +30,9 @@ describe('events/user-signup', () => {
 			arc.events.publish({
 				name: 'user-signup',
 				payload: {
+					identifier,
 					email: faker.internet.email(),
-					identifier
+					userId: uuid()
 				}
 			},
 			() => {
