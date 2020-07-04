@@ -1,11 +1,13 @@
 @app
 content-cyborg-api
 
+
 @http
 get /
 post /users
 post /login
 post /analyze
+
 
 @tables
 users
@@ -15,8 +17,19 @@ users
 events
   identifier *String
 
+
+@indexes
+users
+  userId *String
+
+
+events
+  targetIdentifier *String
+
+
 @events
 user-signup
+
 
 @aws
 profile default
