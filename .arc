@@ -17,6 +17,9 @@ users
 events
   identifier *String
 
+logs
+  identifier *String
+
 
 @indexes
 users
@@ -29,6 +32,9 @@ events
 
 @events
 user-signup
+
+@queues
+log
 
 
 @aws
