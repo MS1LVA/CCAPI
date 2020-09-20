@@ -1,7 +1,7 @@
 'use strict';
 
 const get = require('lodash.get'),
-	event = require('../../../lib/event');
+	event = require('@architect/shared/event');
 
 exports.handler = async function subscribe (evt) {
 	const records = evt.Records;

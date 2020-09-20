@@ -1,8 +1,14 @@
 'use strict';
 
-const user = require('../../../lib/user'),
+const configEnv = process.env.NODE_ENV || 'local',
+	config = require('@architect/shared/config')(configEnv),
+	headers = config.get('api.response.headers.default', {}),
+	{ sleep, encryptToken } = require('@architect/shared/utility')(config),
 	arc = require('@architect/functions'),
-	validateInput = require('../../../lib/validate');
+	Redis = require('@architect/shared/redis')(config),
+	session = require('@architect/shared/session')(encryptToken, Redis, config),
+	user = require('@architect/shared/user')(session, sleep),
+	validateInput = require('@architect/shared/validate');
 
 async function route(request) {
 	const { validated, errors } = validateInput(request.body, {
@@ -27,6 +33,7 @@ async function route(request) {
 	await user.create(validated.email, validated.passphrase);
 
 	return {
+		headers,
 		body: JSON.stringify({
 			success: true
 		}),

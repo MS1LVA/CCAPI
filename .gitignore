@@ -2,7 +2,7 @@ node_modules
 **/**/node_modules
 tmp
 .arc-env
-config/*local.json
-config/test.json
-config/google-app-credentials.json
+src/shared/config/configuration/*local.json
+src/shared/config/configuration/test.json
+src/shared/naturaLanguage/google-app-credentials.json
 dump.rdb

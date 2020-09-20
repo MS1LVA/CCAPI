@@ -1,9 +1,16 @@
 'use strict';
 
-const arc = require('@architect/functions'),
-	{ route: authRoute } = require('../../../lib/user'),
-	validateInput = require('../../../lib/validate'),
-	analyze = require('../../../lib/naturalLanguage');
+const configEnv = process.env.NODE_ENV || 'local',
+	config = require('@architect/shared/config')(configEnv),
+	{ clamp } = require('@architect/shared/utility/number'),
+	analyze = require('@architect/shared/naturalLanguage')(config, clamp),
+	headers = config.get('api.response.headers.default', {}),
+	{ sleep, encryptToken } = require('@architect/shared/utility')(config),
+	arc = require('@architect/functions'),
+	Redis = require('@architect/shared/redis')(config),
+	session = require('@architect/shared/session')(encryptToken, Redis, config),
+	{ route: authRoute } = require('@architect/shared/user')(session, sleep),
+	validateInput = require('@architect/shared/validate');
 
 async function route(request) {
 	try {
@@ -31,6 +38,7 @@ async function route(request) {
 		};
 
 		return {
+			headers,
 			body: JSON.stringify({
 				token: newToken,
 				success: true,

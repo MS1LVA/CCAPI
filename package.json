@@ -2,13 +2,12 @@
   "name": "content-cyborg-api",
   "version": "0.1.0",
   "description": "This is a JS REST API built with [Architect](https://arc.codes) to be deployed on AWS.",
-  "directories": {
-    "lib": "lib"
-  },
+  "directories": {},
   "scripts": {
     "lint": "eslint ./",
     "lint-fix": "eslint ./ --fix",
-    "test": "node ./test"
+    "test": "NODE_ENV=test node ./test",
+    "dev": "arc sandbox"
   },
   "repository": {
     "type": "git",

@@ -6,7 +6,12 @@ const chai = require('chai'),
 	describe = require('mocha').describe,
 	request = require('superagent'),
 	faker = require('faker'),
-	user = require('../../../lib/user');
+	configEnv = process.env.NODE_ENV || 'local',
+	config = require('../../../src/shared/config')(configEnv),
+	{ sleep, encryptToken } = require('../../../src/shared/utility')(config),
+	Redis = require('../../../src/shared/redis')(config),
+	session = require('../../../src/shared/session')(encryptToken, Redis, config),
+	user = require('../../../src/shared/user')(session, sleep);
 
 chai.use(chaiAsPromised);
 

@@ -4,7 +4,7 @@ const describe = require('mocha').describe,
 	expect = require('chai').expect,
 	arc = require('@architect/functions'),
 	faker = require('faker'),
-	log = require('../../../lib/log');
+	log = require('../../../src/shared/log');
 
 describe('src/queues/log', () => {
 	/**

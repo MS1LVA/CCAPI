@@ -1,0 +1,32 @@
+{
+	"redis": {
+		"host": "127.0.0.1",
+		"port": 6379,
+		"password": ""
+	},
+	"user": {
+		"token": {
+			"secret": ""
+		},
+		"randomSleep": 250
+	},
+	"api": {
+		"naturalLanguage": {
+			"enabled": true,
+			"mock": false
+		},
+		"response": {
+			"headers": {
+				"default": {
+					"Cache-Control": "no-cache, no-store, must-revalidate, max-age=0, s-maxage=0",
+					"Access-Control-Allow-Origin": "*"
+				}
+			}
+		},
+		"base": {
+			"protocol": "http",
+			"host": "localhost",
+			"port": 3333
+		}
+	}
+}
