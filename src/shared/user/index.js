@@ -51,13 +51,25 @@ module.exports = (session, sleep, event, log) => {
 		return true;
 	}
 
-	async function authenticate(email = null, passphrase = null) {
-		// Random sleep to prevent consistently timing this function.
-		await sleep();
+	async function getById(id) {
+		if (!id) return false;
+		const { users } = await arc.tables(),
+			params = {
+				KeyConditionExpression: 'userId = :userId',
+				ExpressionAttributeValues: {
+					':userId': id
+				}
+			},
+			userQuery = await users.query(params);
+		if (!userQuery.Items.length) return false;
 
-		if (!email || !passphrase) return false;
+		const user = userQuery.Items[0];
+		return user;
+	}
 
-		const transformedEmail = `${email}`.toLowerCase(),
+	async function getByEmail(email) {
+		if (!email) return false;
+		const transformedEmail = email.toLowerCase(),
 			{ users } = await arc.tables(),
 			params = {
 				KeyConditionExpression: 'email = :email',
@@ -68,13 +80,23 @@ module.exports = (session, sleep, event, log) => {
 			userQuery = await users.query(params);
 		if (!userQuery.Items.length) return false;
 
-		const user = userQuery.Items[0],
+		const user = userQuery.Items[0];
+		return user;
+	}
+
+	async function authenticate(email, passphrase) {
+		// Random sleep to prevent consistently timing this function.
+		await sleep();
+
+		if (!email || !passphrase) return false;
+
+		const user = await getByEmail(email),
 			matchPass = await bcrypt.compare(passphrase, user.passphrase);
 		if (!matchPass) return false;
 
 		const sessionHash = await session.set(user.userId);
 
-		log.info(`User authenticated - ${transformedEmail}`);
+		log.info(`User authenticated - ${email.toLowerCase()}`);
 		return sessionHash;
 	}
 
@@ -89,6 +111,18 @@ module.exports = (session, sleep, event, log) => {
 		// xx - Validate permission, isPaid etc.
 		return renewed;
 	}
+
+	route.admin = async function(request) {
+		const token = (request.headers.Authorization || 'Bearer x').toLowerCase().split('bearer ')[1],
+			userId = await session.get(token),
+			user = await getById(userId),
+			isAdmin = user.admin === 1;
+		if (!isAdmin) return;
+
+		const newToken = await route(request);
+		if (!newToken) return;
+		return newToken;
+	};
 
 	return {
 		create,

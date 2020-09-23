@@ -9,7 +9,9 @@ const configEnv = process.env.NODE_ENV || 'local',
 	arc = require('@architect/functions'),
 	Redis = require('@architect/shared/redis')(config),
 	session = require('@architect/shared/session')(encryptToken, Redis, config),
-	{ route: authRoute } = require('@architect/shared/user')(session, sleep),
+	event = require('@architect/shared/event'),
+	log = require('@architect/shared/log'),
+	{ route: authRoute } = require('@architect/shared/user')(session, sleep, event, log),
 	validateInput = require('@architect/shared/validate');
 
 async function route(request) {
@@ -47,7 +49,14 @@ async function route(request) {
 			statusCode: 200
 		};
 	} catch (err) {
-		console.error(err);
+		log.error(err);
+		return {
+			headers,
+			body: JSON.stringify({
+				success: false
+			}),
+			statusCode: 500
+		};
 	}
 }
 
