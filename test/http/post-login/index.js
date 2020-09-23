@@ -11,7 +11,9 @@ const chai = require('chai'),
 	{ sleep, encryptToken } = require('../../../src/shared/utility')(config),
 	Redis = require('../../../src/shared/redis')(config),
 	session = require('../../../src/shared/session')(encryptToken, Redis, config),
-	user = require('../../../src/shared/user')(session, sleep);
+	event = require('../../../src/shared/event'),
+	log = require('../../../src/shared/log'),
+	user = require('../../../src/shared/user')(session, sleep, event, log);
 
 chai.use(chaiAsPromised);
 
