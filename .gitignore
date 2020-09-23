@@ -4,5 +4,6 @@ tmp
 .arc-env
 src/shared/config/configuration/*local.json
 src/shared/config/configuration/test.json
-src/shared/naturaLanguage/google-app-credentials.json
+src/shared/naturalLanguage/google-app-credentials.json
+**/**/*credentials.json
 dump.rdb

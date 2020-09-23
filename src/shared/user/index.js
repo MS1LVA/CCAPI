@@ -9,7 +9,7 @@ const { v4: uuid } = require('uuid'),
 	bcrypt = require('bcrypt'),
 	arc = require('@architect/functions');
 
-module.exports = (session, sleep) => {
+module.exports = (session, sleep, event, log) => {
 	async function create(email, passphrase) {
 		// Random sleep to prevent email enumeration.
 		await sleep();
@@ -40,14 +40,13 @@ module.exports = (session, sleep) => {
 			passphrase: hash
 		});
 
+		log.info(`User created - ${transformedEmail} - ${userId}`);
+
 		// Fire off an event
-		await arc.events.publish({
-			name: 'user-signup',
-			payload: {
-				email: transformedEmail,
-				userId
-			}
-		});
+		event.publish({
+			email: transformedEmail,
+			userId
+		}, event.type.create, event.target.user);
 
 		return true;
 	}
@@ -74,6 +73,8 @@ module.exports = (session, sleep) => {
 		if (!matchPass) return false;
 
 		const sessionHash = await session.set(user.userId);
+
+		log.info(`User authenticated - ${transformedEmail}`);
 		return sessionHash;
 	}
 

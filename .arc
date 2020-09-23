@@ -13,7 +13,6 @@ post /analyze
 users
   email *String
 
-
 events
   identifier *String
 

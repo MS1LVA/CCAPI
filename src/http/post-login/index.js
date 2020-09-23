@@ -7,7 +7,9 @@ const configEnv = process.env.NODE_ENV || 'local',
 	arc = require('@architect/functions'),
 	Redis = require('@architect/shared/redis')(config),
 	session = require('@architect/shared/session')(encryptToken, Redis, config),
-	{ authenticate } = require('@architect/shared/user')(session, sleep),
+	log = require('@architect/shared/log'),
+	event = require('@architect/shared/event'),
+	{ authenticate } = require('@architect/shared/user')(session, sleep, event, log),
 	validateInput = require('@architect/shared/validate');
 
 async function route(request) {
@@ -27,12 +29,13 @@ async function route(request) {
 		});
 
 		// Short-circuit on bad input
-		if (errors && errors.length) return {
-			statusCode: 422,
-			body: JSON.stringify({
-				errors
-			})
-		};
+		if (errors && errors.length)
+			return {
+				statusCode: 422,
+				body: JSON.stringify({
+					errors
+				})
+			};
 
 		const token = await authenticate(validated.email, validated.passphrase);
 
