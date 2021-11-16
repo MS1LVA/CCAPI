@@ -5,7 +5,7 @@
   "author": "Benjamin Harrington <~@benharrington.io> (https://github.com/bunjomin)",
   "dependencies": {
     "@architect/functions": "3.7.6",
-    "aws-sdk": "2.635.0",
+    "aws-sdk": "2.814.0",
     "bcrypt": "5.0.0",
     "deepmerge": "4.2.2",
     "lodash.get": "4.4.2",
